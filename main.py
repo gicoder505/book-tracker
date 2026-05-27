@@ -17,7 +17,28 @@ def save_books(books):
 
 
 def add_book(books):
-    pass  # реализовано в ветке feature/add-book
+    author = input("Автор: ").strip()
+    title = input("Название: ").strip()
+
+    for existing in books:
+        if existing["автор"].lower() == author.lower() and existing["название"].lower() == title.lower():
+            print(f"Книга '{title}' автора '{author}' уже существует в трекере.")
+            return
+
+    while True:
+        try:
+            rating = int(input("Оценка (1-5): ").strip())
+            if 1 <= rating <= 5:
+                break
+            print("Оценка должна быть от 1 до 5.")
+        except ValueError:
+            print("Введите целое число от 1 до 5.")
+    date_read = input("Дата прочтения (дд.мм.гггг): ").strip()
+
+    book = {"автор": author, "название": title, "оценка": rating, "дата": date_read}
+    books.append(book)
+    save_books(books)
+    print(f"Книга '{title}' добавлена.")
 
 
 def list_books(books):
