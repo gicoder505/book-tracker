@@ -51,7 +51,20 @@ def author_stats(books):
 
 
 def delete_book(books):
-    pass  # реализовано в ветке feature/delete
+    if not books:
+        print("Список книг пуст.")
+        return
+    list_books(books)
+    try:
+        index = int(input("\nВведите номер книги для удаления: ").strip()) - 1
+        if 0 <= index < len(books):
+            removed = books.pop(index)
+            save_books(books)
+            print(f"Книга '{removed['название']}' удалена.")
+        else:
+            print("Неверный номер книги.")
+    except ValueError:
+        print("Введите корректный номер.")
 
 
 def show_menu():
