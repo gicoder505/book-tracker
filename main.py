@@ -16,6 +16,25 @@ def save_books(books):
         json.dump(books, f, ensure_ascii=False, indent=2)
 
 
+def add_book(books):
+    author = input("Автор: ").strip()
+    title = input("Название: ").strip()
+    while True:
+        try:
+            rating = int(input("Оценка (1-5): ").strip())
+            if 1 <= rating <= 5:
+                break
+            print("Оценка должна быть от 1 до 5.")
+        except ValueError:
+            print("Введите целое число от 1 до 5.")
+    date_read = input("Дата прочтения (дд.мм.гггг): ").strip()
+
+    book = {"автор": author, "название": title, "оценка": rating, "дата": date_read}
+    books.append(book)
+    save_books(books)
+    print(f"Книга '{title}' добавлена.")
+
+
 def show_menu():
     print("\n=== Трекер прочитанных книг ===")
     print("1. Добавить книгу")
@@ -32,7 +51,8 @@ def main():
         choice = input("Выберите пункт меню: ").strip()
 
         if choice == "1":
-            pass  # TODO: добавить книгу
+            books = load_books()
+            add_book(books)
         elif choice == "2":
             pass  # TODO: показать все книги
         elif choice == "3":
