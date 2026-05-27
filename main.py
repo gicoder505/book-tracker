@@ -19,6 +19,12 @@ def save_books(books):
 def add_book(books):
     author = input("Автор: ").strip()
     title = input("Название: ").strip()
+
+    for existing in books:
+        if existing["автор"].lower() == author.lower() and existing["название"].lower() == title.lower():
+            print(f"Книга '{title}' автора '{author}' уже существует в трекере.")
+            return
+
     while True:
         try:
             rating = int(input("Оценка (1-5): ").strip())
