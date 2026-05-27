@@ -41,6 +41,53 @@ def add_book(books):
     print(f"Книга '{title}' добавлена.")
 
 
+def list_books(books):
+    if not books:
+        print("Список книг пуст.")
+        return
+    print("\n=== Список прочитанных книг ===")
+    for i, book in enumerate(books, 1):
+        print(f"{i}. {book['название']} — {book['автор']} | Оценка: {book['оценка']} | Дата: {book['дата']}")
+
+
+def average_rating(books):
+    if not books:
+        print("Нет книг для расчёта средней оценки.")
+        return
+    avg = sum(b["оценка"] for b in books) / len(books)
+    print(f"\nСредняя оценка по всем книгам: {avg:.2f}")
+
+
+def author_stats(books):
+    if not books:
+        print("Нет книг для статистики.")
+        return
+    stats = {}
+    for book in books:
+        author = book["автор"]
+        stats[author] = stats.get(author, 0) + 1
+    print("\n=== Статистика по авторам ===")
+    for author, count in sorted(stats.items(), key=lambda x: x[1], reverse=True):
+        print(f"  {author}: {count} кн.")
+
+
+def delete_book(books):
+    if not books:
+        print("Список книг пуст.")
+        return
+    list_books(books)
+    try:
+        index = int(input("\nВведите номер книги для удаления: ").strip()) - 1
+        if 0 <= index < len(books):
+            removed = books.pop(index)
+            save_books(books)
+            print(f"Книга '{removed['название']}' удалена.")
+        else:
+            print("Неверный номер книги.")
+    except ValueError:
+        print("Введите корректный номер.")
+
+
 def show_menu():
     print("\n=== Трекер прочитанных книг ===")
     print("1. Добавить книгу")
@@ -60,13 +107,17 @@ def main():
             books = load_books()
             add_book(books)
         elif choice == "2":
-            pass  # TODO: показать все книги
+            books = load_books()
+            list_books(books)
         elif choice == "3":
-            pass  # TODO: средняя оценка
+            books = load_books()
+            average_rating(books)
         elif choice == "4":
-            pass  # TODO: статистика по авторам
+            books = load_books()
+            author_stats(books)
         elif choice == "5":
-            pass  # TODO: удалить книгу
+            books = load_books()
+            delete_book(books)
         elif choice == "6":
             print("До свидания!")
             break
